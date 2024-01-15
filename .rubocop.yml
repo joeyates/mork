@@ -1,0 +1,63 @@
+require:
+- rubocop-rake
+- rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.7
+  Exclude:
+    - "bin/stubs/*"
+  NewCops: enable
+
+Capybara:
+  Enabled: false
+
+FactoryBot:
+  Enabled: false
+
+Layout/DotPosition:
+  EnforcedStyle: trailing
+Layout/LineLength:
+  Max: 100
+Layout/ParameterAlignment:
+  EnforcedStyle: with_fixed_indentation
+Layout/SpaceAroundOperators:
+  Enabled: true
+  EnforcedStyleForExponentOperator: space
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Metrics/BlockLength:
+  AllowedMethods:
+    - context
+    - describe
+    - feature
+    - shared_examples
+    - shared_examples_for
+Metrics/ClassLength:
+  Enabled: true
+  CountAsOne: ["heredoc"]
+Metrics/ModuleLength:
+  Enabled: true
+  Exclude:
+    - "spec/**/*"
+
+RSpec/DescribeClass:
+  Exclude:
+    - spec/*
+RSpec/MultipleExpectations:
+  Exclude:
+    - spec/**/*
+
+Style/AccessorGrouping:
+  Enabled: true
+  EnforcedStyle: separated
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+Style/Lambda:
+  EnforcedStyle: literal
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: double_quotes
