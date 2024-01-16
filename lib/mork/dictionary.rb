@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require "mork/alias"
 require "mork/meta_alias"
 
 module Mork
+  # A key-value mapping with a namespace ("scope")
   class Dictionary
     attr_reader :content
 

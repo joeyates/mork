@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Mork
+  # An alias indicating a Dictionary's scope
   class MetaAlias
     attr_reader :raw
 

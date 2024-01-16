@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "mork/dictionary"
 
 module Mork

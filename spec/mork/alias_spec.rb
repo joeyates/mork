@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "mork/alias"
 
 module Mork
@@ -17,4 +19,3 @@ module Mork
     end
   end
 end
-

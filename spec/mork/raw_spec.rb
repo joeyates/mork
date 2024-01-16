@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "mork/raw"
 
 module Mork
@@ -5,12 +7,12 @@ module Mork
     subject { described_class.new(values: values) }
 
     let(:values) do
-      [dictionary_c, dictionary_a1, dictionary_a2]
+      [dictionary_c, dictionary_first_a, dictionary_second_a]
     end
-    let(:dictionary_a1) do
+    let(:dictionary_first_a) do
       instance_double(Dictionary, "a1", scope: "a", to_h: {"X" => "1"})
     end
-    let(:dictionary_a2) do
+    let(:dictionary_second_a) do
       instance_double(Dictionary, "a2", scope: "a", to_h: {"Y" => "2"})
     end
     let(:dictionary_c) do
@@ -18,7 +20,6 @@ module Mork
     end
 
     it "builds namespaced dictionaries" do
-      dictionaries = subject.dictionaries
       expect(subject.dictionaries.keys.sort).to eq(%w[a c])
     end
 

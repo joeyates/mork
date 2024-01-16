@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "mork/lexer"
 
 module Mork
@@ -9,6 +11,7 @@ module Mork
       loop do
         token = subject.next_token
         break if !token
+
         all << token
       end
       all

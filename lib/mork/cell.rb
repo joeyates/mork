@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Mork
+  # A cell in a row
   class Cell
     attr_reader :raw
 

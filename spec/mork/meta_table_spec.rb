@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "mork/meta_table"
 
 module Mork
@@ -11,4 +13,3 @@ module Mork
     end
   end
 end
-

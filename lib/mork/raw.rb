@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require "mork/dictionary"
 
 module Mork
+  # Raw data returned by the Parser
   class Raw
     attr_reader :values
 
@@ -12,12 +15,10 @@ module Mork
     # each value being a Hash of key-value entries
     def dictionaries
       @dictionaries ||=
-        begin
-          raw_dictionaries.each.with_object({}) do |d, scopes|
-            scope = d.scope
-            scopes[scope] ||= {}
-            scopes[scope].merge!(d.to_h)
-          end
+        raw_dictionaries.each.with_object({}) do |d, scopes|
+          scope = d.scope
+          scopes[scope] ||= {}
+          scopes[scope].merge!(d.to_h)
         end
     end
 

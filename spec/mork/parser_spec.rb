@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "mork/parser"
 
 module Mork
@@ -18,15 +20,15 @@ module Mork
       end
 
       it "loads dictionary meta aliases" do
-        dictionary_1 = result.values.find { |r| r.is_a?(Dictionary) }
+        dictionary1 = result.values.find { |r| r.is_a?(Dictionary) }
 
-        expect(dictionary_1.scope).to eq("c")
+        expect(dictionary1.scope).to eq("c")
       end
 
       it "loads dictionary aliases" do
-        dictionary_1 = result.values.find { |r| r.is_a?(Dictionary) }
+        dictionary1 = result.values.find { |r| r.is_a?(Dictionary) }
 
-        expect(dictionary_1.to_h["BC"]).to eq("dateReceived")
+        expect(dictionary1.to_h["BC"]).to eq("dateReceived")
       end
 
       it "extracts groups" do
@@ -36,9 +38,9 @@ module Mork
       end
 
       it "loads group rows" do
-        group_1 = result.values.find { |r| r.is_a?(Group) }
+        group1 = result.values.find { |r| r.is_a?(Group) }
 
-        expect(group_1.rows.count).to eq(1)
+        expect(group1.rows.count).to eq(1)
       end
 
       it "extracts rows" do
@@ -48,9 +50,9 @@ module Mork
       end
 
       it "loads row raw_ids" do
-        row_1 = result.values.find { |r| r.is_a?(Row) }
+        row1 = result.values.find { |r| r.is_a?(Row) }
 
-        expect(row_1.raw_id).to eq("3:m")
+        expect(row1.raw_id).to eq("3:m")
       end
 
       it "extracts tables" do
@@ -60,9 +62,9 @@ module Mork
       end
 
       it "loads table ids" do
-        table_1 = result.values.find { |r| r.is_a?(Table) }
+        table1 = result.values.find { |r| r.is_a?(Table) }
 
-        expect(table_1.raw_id).to eq("{1:^80 ")
+        expect(table1.raw_id).to eq("{1:^80 ")
       end
     end
   end

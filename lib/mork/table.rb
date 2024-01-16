@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require "mork/row"
 
 module Mork
+  # A table of rows
   class Table
     attr_reader :raw_id
     attr_reader :content

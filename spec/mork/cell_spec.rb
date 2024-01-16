@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "mork/cell"
 
 module Mork
@@ -13,4 +15,3 @@ module Mork
     end
   end
 end
-

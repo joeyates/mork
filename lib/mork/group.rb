@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require "mork/row"
 
 module Mork
+  # A group of updates to the data
   class Group
     attr_reader :content
 

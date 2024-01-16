@@ -6,6 +6,8 @@ AllCops:
   TargetRubyVersion: 2.7
   Exclude:
     - "bin/stubs/*"
+    - lib/mork/lexer.rb
+    - lib/mork/parser.rb
     - "vendor/**/*"
   NewCops: enable
 
@@ -48,6 +50,10 @@ RSpec/DescribeClass:
 RSpec/MultipleExpectations:
   Exclude:
     - spec/**/*
+RSpec/NamedSubject:
+  Enabled: false
+RSpec/ReturnFromStub:
+  EnforcedStyle: block
 
 Style/AccessorGrouping:
   Enabled: true
@@ -56,6 +62,8 @@ Style/EmptyMethod:
   EnforcedStyle: expanded
 Style/Lambda:
   EnforcedStyle: literal
+Style/NegatedIf:
+  Enabled: false
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: double_quotes

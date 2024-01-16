@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "mork/table"
 
 module Mork
@@ -20,11 +22,9 @@ module Mork
     end
 
     describe "#rows" do
-      it "It returns all rows in the supplied content" do
+      it "returns all rows in the supplied content" do
         expect(subject.rows).to eq([row])
       end
     end
   end
 end
-
-

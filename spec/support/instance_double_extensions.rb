@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Based on https://github.com/rspec/rspec-mocks/issues/794
 module VerifiedDoubleExtensions
   def instance_double(klass, *args)

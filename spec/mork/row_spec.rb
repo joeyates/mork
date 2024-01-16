@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "mork/row"
 
 module Mork
@@ -17,5 +19,3 @@ module Mork
     end
   end
 end
-
-
