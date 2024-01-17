@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
-require "mork/row"
+require "mork/raw/row"
 
 module Mork
+  class Raw; end # rubocop:disable Lint/EmptyClass
+
   # A group of updates to the data
-  class Group
+  class Raw::Group
     attr_reader :content
 
     def initialize(content:)
@@ -12,7 +14,7 @@ module Mork
     end
 
     def rows
-      content.filter { |c| c.is_a?(Row) }
+      content.filter { |c| c.is_a?(Raw::Row) }
     end
   end
 end

@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require "mork/dictionary"
+require "mork/raw/dictionary"
 
 module Mork
-  RSpec.describe Dictionary do
+  RSpec.describe Raw::Dictionary do
     subject { described_class.new(content: content) }
 
     let(:content) do
-      [instance_double(Alias, key: "A", value: "a")]
+      [instance_double(Raw::Alias, key: "A", value: "a")]
     end
 
     describe "#to_h" do
@@ -22,7 +22,7 @@ module Mork
       end
 
       context "when the dictionary has a meta alias" do
-        let(:content) { [instance_double(MetaAlias, scope: "foo")] }
+        let(:content) { [instance_double(Raw::MetaAlias, scope: "foo")] }
 
         it "returns the meta alias's scope" do
           expect(subject.scope).to eq("foo")

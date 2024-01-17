@@ -58,6 +58,8 @@ RSpec/ReturnFromStub:
 Style/AccessorGrouping:
   Enabled: true
   EnforcedStyle: separated
+Style/ClassAndModuleChildren:
+  Enabled: false
 Style/EmptyMethod:
   EnforcedStyle: expanded
 Style/Lambda:
