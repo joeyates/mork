@@ -13,16 +13,16 @@ module Mork
 
 module_eval(<<'...end mork.y/module_eval...', 'mork.y', 58)
 
-require "mork/alias"
-require "mork/raw/cell"
-require "mork/dictionary"
-require "mork/group"
 require "mork/lexer"
-require "mork/meta_alias"
-require "mork/meta_table"
 require "mork/raw"
+require "mork/raw/alias"
+require "mork/raw/cell"
+require "mork/raw/dictionary"
+require "mork/raw/group"
+require "mork/raw/meta_alias"
+require "mork/raw/meta_table"
 require "mork/raw/row"
-require "mork/table"
+require "mork/raw/table"
 
 attr_reader :lexer
 
@@ -307,7 +307,7 @@ module_eval(<<'.,.,', 'mork.y', 13)
 
 module_eval(<<'.,.,', 'mork.y', 15)
   def _reduce_7(val, _values, result)
-     result = Mork::Dictionary.new(content: val[1].flatten.compact)
+     result = Mork::Raw::Dictionary.new(content: val[1].flatten.compact)
     result
   end
 .,.,
@@ -342,14 +342,14 @@ module_eval(<<'.,.,', 'mork.y', 20)
 
 module_eval(<<'.,.,', 'mork.y', 21)
   def _reduce_12(val, _values, result)
-     result = Mork::MetaAlias.new(raw: val[2])
+     result = Mork::Raw::MetaAlias.new(raw: val[2])
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'mork.y', 23)
   def _reduce_13(val, _values, result)
-     result = Mork::Group.new(content: val[1])
+     result = Mork::Raw::Group.new(content: val[1])
     result
   end
 .,.,
@@ -407,7 +407,7 @@ module_eval(<<'.,.,', 'mork.y', 32)
 
 module_eval(<<'.,.,', 'mork.y', 34)
   def _reduce_22(val, _values, result)
-     result = Mork::Table.new(raw_id: val[0], content: val[1])
+     result = Mork::Raw::Table.new(raw_id: val[0], content: val[1])
     result
   end
 .,.,
@@ -442,7 +442,7 @@ module_eval(<<'.,.,', 'mork.y', 38)
 
 module_eval(<<'.,.,', 'mork.y', 39)
   def _reduce_27(val, _values, result)
-     result = Mork::MetaTable.new(raw: val[1])
+     result = Mork::Raw::MetaTable.new(raw: val[1])
     result
   end
 .,.,
@@ -464,7 +464,7 @@ module_eval(<<'.,.,', 'mork.y', 45)
 
 module_eval(<<'.,.,', 'mork.y', 46)
   def _reduce_33(val, _values, result)
-     result = Mork::Alias.new(key: val[1], value: val[2])
+     result = Mork::Raw::Alias.new(key: val[1], value: val[2])
     result
   end
 .,.,

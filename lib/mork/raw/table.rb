@@ -3,8 +3,10 @@
 require "mork/raw/row"
 
 module Mork
+  class Raw; end # rubocop:disable Lint/EmptyClass
+
   # A table of rows
-  class Table
+  class Raw::Table
     attr_reader :raw_id
     attr_reader :content
 

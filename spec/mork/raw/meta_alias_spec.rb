@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "mork/meta_alias"
+require "mork/raw/meta_alias"
 
 module Mork
-  RSpec.describe MetaAlias do
+  RSpec.describe Raw::MetaAlias do
     subject { described_class.new(raw: "a=x") }
 
     describe "#scope" do

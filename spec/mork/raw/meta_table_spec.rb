@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "mork/meta_table"
+require "mork/raw/meta_table"
 
 module Mork
-  RSpec.describe MetaTable do
+  RSpec.describe Raw::MetaTable do
     subject { described_class.new(raw: "raw") }
 
     describe "#raw" do

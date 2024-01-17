@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "mork/dictionary"
+require "mork/raw/dictionary"
 
 module Mork
   # Raw data returned by the Parser

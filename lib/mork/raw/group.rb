@@ -3,8 +3,10 @@
 require "mork/raw/row"
 
 module Mork
+  class Raw; end # rubocop:disable Lint/EmptyClass
+
   # A group of updates to the data
-  class Group
+  class Raw::Group
     attr_reader :content
 
     def initialize(content:)

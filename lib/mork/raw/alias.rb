@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 module Mork
+  class Raw; end # rubocop:disable Lint/EmptyClass
+
   # A key-value alias pair
-  class Alias
+  class Raw::Alias
     attr_reader :key
     attr_reader :value
 

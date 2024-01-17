@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 module Mork
+  class Raw; end # rubocop:disable Lint/EmptyClass
+
   # A meta table
-  class MetaTable
+  class Raw::MetaTable
     attr_reader :raw
 
     def initialize(raw:)

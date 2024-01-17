@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
-require "mork/alias"
-require "mork/meta_alias"
+require "mork/raw/alias"
+require "mork/raw/meta_alias"
 
 module Mork
+  class Raw; end # rubocop:disable Lint/EmptyClass
+
   # A key-value mapping with a namespace ("scope")
-  class Dictionary
+  class Raw::Dictionary
     attr_reader :content
 
     def initialize(content:)
@@ -25,11 +27,11 @@ module Mork
     private
 
     def aliases
-      @aliases ||= content.filter { |c| c.is_a?(Mork::Alias) }
+      @aliases ||= content.filter { |c| c.is_a?(Raw::Alias) }
     end
 
     def meta
-      @meta ||= content.find { |c| c.is_a?(Mork::MetaAlias) }
+      @meta ||= content.find { |c| c.is_a?(Raw::MetaAlias) }
     end
   end
 end
