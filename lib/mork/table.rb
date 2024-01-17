@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "mork/row"
+require "mork/raw/row"
 
 module Mork
   # A table of rows
@@ -14,7 +14,7 @@ module Mork
     end
 
     def rows
-      content.filter { |c| c.is_a?(Row) }
+      content.filter { |c| c.is_a?(Raw::Row) }
     end
   end
 end

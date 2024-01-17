@@ -27,7 +27,7 @@ rule
                | row group_content { result = [val[0]] + val[1] }
                | table group_content { result = [val[0]] + val[1] }
 
-  row: row_in row_mid cells row_out { result = Mork::Row.new(raw_id: val[1], cells: val[2]) }
+  row: row_in row_mid cells row_out { result = Mork::Raw::Row.new(raw_id: val[1], cells: val[2]) }
   cells:
        | cell cells { result = val.flatten.compact }
   cell: cell_in cell_value cell_out { result = Mork::Raw::Cell.new(raw: val[1]) }
@@ -64,7 +64,7 @@ require "mork/lexer"
 require "mork/meta_alias"
 require "mork/meta_table"
 require "mork/raw"
-require "mork/row"
+require "mork/raw/row"
 require "mork/table"
 
 attr_reader :lexer

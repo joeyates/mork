@@ -7,7 +7,7 @@ module Mork
     subject { described_class.new(content: content) }
 
     let(:content) { [row, "foo"] }
-    let(:row) { Row.new(raw_id: "id", cells: []) }
+    let(:row) { Raw::Row.new(raw_id: "id", cells: []) }
 
     describe "#content" do
       it "returns the supplied value" do

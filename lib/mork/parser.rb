@@ -21,7 +21,7 @@ require "mork/lexer"
 require "mork/meta_alias"
 require "mork/meta_table"
 require "mork/raw"
-require "mork/row"
+require "mork/raw/row"
 require "mork/table"
 
 attr_reader :lexer
@@ -384,7 +384,7 @@ module_eval(<<'.,.,', 'mork.y', 27)
 
 module_eval(<<'.,.,', 'mork.y', 29)
   def _reduce_18(val, _values, result)
-     result = Mork::Row.new(raw_id: val[1], cells: val[2])
+     result = Mork::Raw::Row.new(raw_id: val[1], cells: val[2])
     result
   end
 .,.,

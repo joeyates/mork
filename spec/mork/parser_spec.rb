@@ -44,13 +44,13 @@ module Mork
       end
 
       it "extracts rows" do
-        rows = result.values.filter { |r| r.is_a?(Row) }
+        rows = result.values.filter { |r| r.is_a?(Raw::Row) }
 
         expect(rows.count).to eq(2)
       end
 
       it "loads row raw_ids" do
-        row1 = result.values.find { |r| r.is_a?(Row) }
+        row1 = result.values.find { |r| r.is_a?(Raw::Row) }
 
         expect(row1.raw_id).to eq("3:m")
       end
