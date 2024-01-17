@@ -30,7 +30,7 @@ rule
   row: row_in row_mid cells row_out { result = Mork::Row.new(raw_id: val[1], cells: val[2]) }
   cells:
        | cell cells { result = val.flatten.compact }
-  cell: cell_in cell_value cell_out { result = Mork::Cell.new(raw: val[1]) }
+  cell: cell_in cell_value cell_out { result = Mork::Raw::Cell.new(raw: val[1]) }
 
   table: table_in table_content table_out { result = Mork::Table.new(raw_id: val[0], content: val[1]) }
   table_content: { result = [] }
@@ -57,7 +57,7 @@ end
 ---- inner
 
 require "mork/alias"
-require "mork/cell"
+require "mork/raw/cell"
 require "mork/dictionary"
 require "mork/group"
 require "mork/lexer"

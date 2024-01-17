@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "mork/row"
+require "mork/raw/cell"
 
 module Mork
   RSpec.describe Row do

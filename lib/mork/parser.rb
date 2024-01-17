@@ -14,7 +14,7 @@ module Mork
 module_eval(<<'...end mork.y/module_eval...', 'mork.y', 58)
 
 require "mork/alias"
-require "mork/cell"
+require "mork/raw/cell"
 require "mork/dictionary"
 require "mork/group"
 require "mork/lexer"
@@ -400,7 +400,7 @@ module_eval(<<'.,.,', 'mork.y', 31)
 
 module_eval(<<'.,.,', 'mork.y', 32)
   def _reduce_21(val, _values, result)
-     result = Mork::Cell.new(raw: val[1])
+     result = Mork::Raw::Cell.new(raw: val[1])
     result
   end
 .,.,
