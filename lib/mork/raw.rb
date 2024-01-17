@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
+require "mork/data"
 require "mork/raw/dictionary"
+require "mork/raw/row"
 
 module Mork
   # Raw data returned by the Parser
@@ -22,10 +24,22 @@ module Mork
         end
     end
 
+    def data
+      Data.new(rows: resolved_rows)
+    end
+
     private
 
     def raw_dictionaries
-      @raw_dictionaries ||= values.filter { |v| v.is_a?(Mork::Dictionary) }
+      @raw_dictionaries ||= values.filter { |v| v.is_a?(Raw::Dictionary) }
+    end
+
+    def raw_rows
+      @raw_rows ||= values.filter { |v| v.is_a?(Raw::Row) }
+    end
+
+    def resolved_rows
+      raw_rows.map { |r| r.resolve(dictionaries: dictionaries) }
     end
   end
 end

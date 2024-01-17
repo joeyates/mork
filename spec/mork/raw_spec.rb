@@ -19,12 +19,30 @@ module Mork
       instance_double(Raw::Dictionary, "c", scope: "c", to_h: {"Z" => "3"})
     end
 
-    it "builds namespaced dictionaries" do
-      expect(subject.dictionaries.keys.sort).to eq(%w[a c])
+    describe "#dictionaries" do
+      it "builds namespaced dictionaries" do
+        expect(subject.dictionaries.keys.sort).to eq(%w[a c])
+      end
+
+      it "merges source dictionaries by namespace" do
+        expect(subject.dictionaries["a"].to_h).to eq({"X" => "1", "Y" => "2"})
+      end
     end
 
-    it "merges source dictionaries by namespace" do
-      expect(subject.dictionaries["a"].to_h).to eq({"X" => "1", "Y" => "2"})
+    describe "#data" do
+      let(:values) do
+        [row1]
+      end
+      let(:row1) { instance_double(Raw::Row, resolve: "resolved row") }
+      let(:data) { subject.data }
+
+      it "returns a Data object" do
+        expect(data).to be_a(Data)
+      end
+
+      it "returns resolved rows" do
+        expect(data.rows).to eq(["resolved row"])
+      end
     end
   end
 end
