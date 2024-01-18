@@ -307,7 +307,7 @@ module_eval(<<'.,.,', 'mork.y', 13)
 
 module_eval(<<'.,.,', 'mork.y', 15)
   def _reduce_7(val, _values, result)
-     result = Mork::Raw::Dictionary.new(content: val[1].flatten.compact)
+     result = Mork::Raw::Dictionary.new(values: val[1].flatten.compact)
     result
   end
 .,.,
@@ -349,7 +349,7 @@ module_eval(<<'.,.,', 'mork.y', 21)
 
 module_eval(<<'.,.,', 'mork.y', 23)
   def _reduce_13(val, _values, result)
-     result = Mork::Raw::Group.new(content: val[1])
+     result = Mork::Raw::Group.new(values: val[1])
     result
   end
 .,.,
@@ -407,7 +407,7 @@ module_eval(<<'.,.,', 'mork.y', 32)
 
 module_eval(<<'.,.,', 'mork.y', 34)
   def _reduce_22(val, _values, result)
-     result = Mork::Raw::Table.new(raw_id: val[0], content: val[1])
+     result = Mork::Raw::Table.new(raw_id: val[0], values: val[1])
     result
   end
 .,.,

@@ -9,15 +9,15 @@ module Mork
   # A table of rows
   class Raw::Table
     attr_reader :raw_id
-    attr_reader :content
+    attr_reader :values
 
-    def initialize(raw_id:, content:)
+    def initialize(raw_id:, values:)
       @raw_id = raw_id
-      @content = content
+      @values = values
     end
 
     def rows
-      content.filter { |c| c.is_a?(Raw::Row) }
+      values.filter { |c| c.is_a?(Raw::Row) }
     end
 
     def resolve(dictionaries:)
