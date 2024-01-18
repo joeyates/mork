@@ -9,29 +9,31 @@ RSpec.describe "mork parsing" do
   let(:raw) { parser.parse(content) }
   let(:data) { raw.data }
   let(:expected_rows) do
-    [
-      {
-        "children" => "1",
-        "threadFlags" => "0",
-        "threadId" => "3",
-        "threadNewestMsgDate" => "65a65937",
-        "threadRoot" => "3",
-        "unreadChildren" => "1"
-      },
-      {
-        "children" => "1",
-        "threadFlags" => "0",
-        "threadId" => "4",
-        "threadNewestMsgDate" => "65a6591b",
-        "threadRoot" => "4"
+    {
+      "m" => {
+        "3" => {
+          "children" => "1",
+          "threadFlags" => "0",
+          "threadId" => "3",
+          "threadNewestMsgDate" => "65a65937",
+          "threadRoot" => "3",
+          "unreadChildren" => "1"
+        },
+        "4" => {
+          "children" => "1",
+          "threadFlags" => "0",
+          "threadId" => "4",
+          "threadNewestMsgDate" => "65a6591b",
+          "threadRoot" => "4"
+        }
       }
-    ]
+    }
   end
   let(:expected_tables) do
     {
       "ns:msg:db:row:scope:dbfolderinfo:all" => {
-        "1" => [
-          {
+        "1" => {
+          "1" => {
             "MRMTime" => "1705400647", "MRUTime" => "1705400695", "UIDValidity" => "65",
             "applyToFlaggedMessages" => "0", "cleanupBodies" => "0", "daysToKeepBodies" => "0",
             "daysToKeepHdrs" => "1e", "expungedBytes" => "9764", "fixedBadRefThreading" => "1",
@@ -43,11 +45,11 @@ RSpec.describe "mork parsing" do
             "useServerDefaults" => "1", "useServerRetention" => "1", "version" => "1",
             "viewFlags" => "1", "viewType" => "0"
           }
-        ]
+        }
       },
       "ns:msg:db:row:scope:msgs:all" => {
-        "1" => [
-          {
+        "1" => {
+          "3" => {
             "ProtoThreadFlags" => "0", "X-GM-LABELS" => "", "X-GM-MSGID" => "1788242173500958345",
             "X-GM-THRID" => "1788242173500958345", "date" => "65a65937",
             "dateReceived" => "65a65937", "flags" => "80", "gloda-id" => "5973",
@@ -58,7 +60,7 @@ RSpec.describe "mork parsing" do
             "sender_name" => "0|me@example.com", "size" => "1066", "storeToken" => "0",
             "subject" => "Message 2", "threadParent" => "ffffffff"
           },
-          {
+          "4" => {
             "ProtoThreadFlags" => "0", "X-GM-LABELS" => "", "X-GM-MSGID" => "1788242144743756366",
             "X-GM-THRID" => "1788242144743756366", "date" => "65a6591b",
             "dateReceived" => "65a6591b", "flags" => "81", "gloda-dirty" => "0",
@@ -70,9 +72,9 @@ RSpec.describe "mork parsing" do
             "sender_name" => "0|me@example.com", "size" => "1064", "storeToken" => "4205",
             "subject" => "Message 1", "threadParent" => "ffffffff"
           }
-        ],
-        "3" => [],
-        "4" => []
+        },
+        "3" => {},
+        "4" => {}
       }
     }
   end

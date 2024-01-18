@@ -33,8 +33,10 @@ module Mork
       let(:values) do
         [row1, table1]
       end
-      let(:row1) { instance_double(Raw::Row, resolve: "resolved row") }
-      let(:table1) { instance_double(Raw::Table, resolve: ["ns", "id", ["resolved row"]]) }
+      let(:row1) { instance_double(Raw::Row, resolve: ["row_namespace", "row_id", "resolved row"]) }
+      let(:table1) do
+        instance_double(Raw::Table, resolve: ["ns", "table_id", {"row_id" => "resolved row"}])
+      end
       let(:data) { subject.data }
 
       it "returns a Data object" do
@@ -42,11 +44,11 @@ module Mork
       end
 
       it "returns resolved rows" do
-        expect(data.rows).to eq(["resolved row"])
+        expect(data.rows).to eq({"row_namespace" => {"row_id" => "resolved row"}})
       end
 
       it "returns resolved tables" do
-        expect(data.tables).to eq({"ns" => {"id" => ["resolved row"]}})
+        expect(data.tables).to eq({"ns" => {"table_id" => {"row_id" => "resolved row"}}})
       end
     end
   end

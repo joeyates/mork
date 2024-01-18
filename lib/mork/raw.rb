@@ -44,7 +44,13 @@ module Mork
     end
 
     def resolved_rows
-      raw_rows.map { |r| r.resolve(dictionaries: dictionaries) }
+      raw_rows.
+        each.
+        with_object({}) do |r, acc|
+          namespace, id, row = r.resolve(dictionaries: dictionaries)
+          acc[namespace] ||= {}
+          acc[namespace][id] = row
+        end
     end
 
     def resolved_tables
