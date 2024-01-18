@@ -26,7 +26,8 @@ RSpec.describe "mork parsing" do
           "threadNewestMsgDate" => "65a6591b",
           "threadRoot" => "4"
         }
-      }
+      },
+      "ns:msg:db:row:scope:dbfolderinfo:all" => {"1" => {"expungedBytes" => "0"}}
     }
   end
   let(:expected_tables) do

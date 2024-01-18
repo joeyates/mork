@@ -32,12 +32,10 @@ module Mork
     end
 
     describe "#data" do
-      let(:values) do
-        [row1, table1]
-      end
+      let(:values) { [row1, table1] }
       let(:row1) { instance_double(Raw::Row, resolve: ["row_namespace", "row_id", "resolved row"]) }
       let(:table1) do
-        instance_double(Raw::Table, resolve: ["ns", "table_id", {"row_id" => "resolved row"}])
+        instance_double(Raw::Table, resolve: ["ns", "table_id", {"row_id" => "resolved table row"}])
       end
       let(:data) { subject.data }
 
@@ -50,7 +48,38 @@ module Mork
       end
 
       it "returns resolved tables" do
-        expect(data.tables).to eq({"ns" => {"table_id" => {"row_id" => "resolved row"}}})
+        expect(data.tables).to eq({"ns" => {"table_id" => {"row_id" => "resolved table row"}}})
+      end
+
+      context "when there are groups" do
+        let(:values) { [row1, table1, group1] }
+        let(:group1) { instance_double(Raw::Group, resolve: group_data) }
+        let(:group_data) do
+          Data.new(
+            rows: {"row_namespace" => {"group_row_id" => "resolved group row"}},
+            tables: {"ns" => {"table_id" => {"group_table_row_id" => "resolved group table row"}}}
+          )
+        end
+        let(:expected_tables) do
+          {
+            "ns" => {
+              "table_id" => {
+                "row_id" => "resolved table row", "group_table_row_id" => "resolved group table row"
+              }
+            }
+          }
+        end
+
+        it "merges in group rows" do
+          expected = {
+            "row_namespace" => {"row_id" => "resolved row", "group_row_id" => "resolved group row"}
+          }
+          expect(data.rows).to eq(expected)
+        end
+
+        it "merges in group tables" do
+          expect(data.tables).to eq(expected_tables)
+        end
       end
     end
   end
