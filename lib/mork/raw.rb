@@ -2,8 +2,8 @@
 
 require "mork/data"
 require "mork/raw/dictionary"
-require "mork/raw/row"
-require "mork/raw/table"
+require "mork/raw/row_resolver"
+require "mork/raw/table_resolver"
 
 module Mork
   # Raw data returned by the Parser
@@ -26,7 +26,10 @@ module Mork
     end
 
     def data
-      Data.new(rows: resolved_rows, tables: resolved_tables)
+      Data.new(
+        rows: row_resolver.resolve(dictionaries: dictionaries),
+        tables: table_resolver.resolve(dictionaries: dictionaries)
+      )
     end
 
     private
@@ -35,31 +38,12 @@ module Mork
       @raw_dictionaries ||= values.filter { |v| v.is_a?(Raw::Dictionary) }
     end
 
-    def raw_rows
-      @raw_rows ||= values.filter { |v| v.is_a?(Raw::Row) }
+    def row_resolver
+      @row_resolver ||= Raw::RowResolver.new(values: values)
     end
 
-    def raw_tables
-      @raw_tables ||= values.filter { |v| v.is_a?(Raw::Table) }
-    end
-
-    def resolved_rows
-      raw_rows.
-        each.
-        with_object({}) do |r, acc|
-          namespace, id, row = r.resolve(dictionaries: dictionaries)
-          acc[namespace] ||= {}
-          acc[namespace][id] = row
-        end
-    end
-
-    def resolved_tables
-      raw_tables.
-        map { |t| t.resolve(dictionaries: dictionaries) }.
-        each.with_object({}) do |(namespace, id, rows), acc|
-          acc[namespace] ||= {}
-          acc[namespace][id] = rows
-        end
+    def table_resolver
+      @table_resolver ||= Raw::TableResolver.new(values: values)
     end
   end
 end
