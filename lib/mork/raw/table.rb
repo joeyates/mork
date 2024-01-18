@@ -55,7 +55,21 @@ module Mork
       rows.map { |r| r.resolve(dictionaries: dictionaries) }
     end
 
-    RAW_ID_MATCH = /\A\{(?<id>[0-9]+)(:(?<raw_namespace>.*))?/
+    # rubocop:disable Lint/MixedRegexpCaptureTypes
+    # Rubocop gives a false positive here
+    RAW_ID_MATCH = /
+    \A
+    \{                 # The lexer captures the table delimiter
+    (?<id>[0-9]+)      # Tables are numbered
+    (
+      :
+      (?<raw_namespace>
+        \^?            # The raw namespace may be a reference
+        \S+            # The name is everything but trailing whitespace
+      )
+    )?                 # The namespace is optional
+    /x.freeze
+    # rubocop:enable Lint/MixedRegexpCaptureTypes
 
     def split_raw_id
       m = RAW_ID_MATCH.match(raw_id)
