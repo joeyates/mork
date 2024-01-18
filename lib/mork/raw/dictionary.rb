@@ -8,10 +8,10 @@ module Mork
 
   # A key-value mapping with a namespace ("scope")
   class Raw::Dictionary
-    attr_reader :content
+    attr_reader :values
 
-    def initialize(content:)
-      @content = content
+    def initialize(values:)
+      @values = values
     end
 
     def to_h
@@ -27,11 +27,11 @@ module Mork
     private
 
     def aliases
-      @aliases ||= content.filter { |c| c.is_a?(Raw::Alias) }
+      @aliases ||= values.filter { |c| c.is_a?(Raw::Alias) }
     end
 
     def meta
-      @meta ||= content.find { |c| c.is_a?(Raw::MetaAlias) }
+      @meta ||= values.find { |c| c.is_a?(Raw::MetaAlias) }
     end
   end
 end

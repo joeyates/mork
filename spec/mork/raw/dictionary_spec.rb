@@ -4,9 +4,9 @@ require "mork/raw/dictionary"
 
 module Mork
   RSpec.describe Raw::Dictionary do
-    subject { described_class.new(content: content) }
+    subject { described_class.new(values: values) }
 
-    let(:content) do
+    let(:values) do
       [instance_double(Raw::Alias, key: "A", value: "a")]
     end
 
@@ -22,7 +22,7 @@ module Mork
       end
 
       context "when the dictionary has a meta alias" do
-        let(:content) { [instance_double(Raw::MetaAlias, scope: "foo")] }
+        let(:values) { [instance_double(Raw::MetaAlias, scope: "foo")] }
 
         it "returns the meta alias's scope" do
           expect(subject.scope).to eq("foo")

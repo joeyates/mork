@@ -13,7 +13,7 @@ rule
            | row top_level { result = [val[0]] + val[1] }
            | table top_level { result = [val[0]] + val[1] }
 
-  dictionary: dictionary_in dictionary_contents dictionary_out { result = Mork::Raw::Dictionary.new(content: val[1].flatten.compact) }
+  dictionary: dictionary_in dictionary_contents dictionary_out { result = Mork::Raw::Dictionary.new(values: val[1].flatten.compact) }
   dictionary_contents: { result = [] }
                      | meta dictionary_contents { result = [val[0]] + val[1] }
                      # Drop comments
@@ -21,7 +21,7 @@ rule
                      | aliases dictionary_contents { result = [val[0]] + val[1] }
   meta: meta_in meta_alias_in meta_alias meta_alias_out meta_out { result = Mork::Raw::MetaAlias.new(raw: val[2]) }
 
-  group: group_in group_content group_out { result = Mork::Raw::Group.new(content: val[1]) }
+  group: group_in group_content group_out { result = Mork::Raw::Group.new(values: val[1]) }
   group_content: { result = [] }
                | dictionary group_content { result = [val[0]] + val[1] }
                | row group_content { result = [val[0]] + val[1] }
@@ -32,7 +32,7 @@ rule
        | cell cells { result = val.flatten.compact }
   cell: cell_in cell_value cell_out { result = Mork::Raw::Cell.new(raw: val[1]) }
 
-  table: table_in table_content table_out { result = Mork::Raw::Table.new(raw_id: val[0], content: val[1]) }
+  table: table_in table_content table_out { result = Mork::Raw::Table.new(raw_id: val[0], values: val[1]) }
   table_content: { result = [] }
                | meta_table table_content { result = [val[0]] + val[1] }
                | row table_content { result = [val[0]] + val[1] }

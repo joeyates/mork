@@ -7,14 +7,14 @@ module Mork
 
   # A group of updates to the data
   class Raw::Group
-    attr_reader :content
+    attr_reader :values
 
-    def initialize(content:)
-      @content = content
+    def initialize(values:)
+      @values = values
     end
 
     def rows
-      content.filter { |c| c.is_a?(Raw::Row) }
+      values.filter { |c| c.is_a?(Raw::Row) }
     end
   end
 end

@@ -4,10 +4,10 @@ require "mork/raw/table"
 
 module Mork
   RSpec.describe Raw::Table do
-    subject { described_class.new(raw_id: raw_id, content: content) }
+    subject { described_class.new(raw_id: raw_id, values: values) }
 
     let(:raw_id) { "{1:^80" }
-    let(:content) { [row, "foo"] }
+    let(:values) { [row, "foo"] }
     let(:row) do
       instance_double(Raw::Row, raw_id: "id", resolve: ["namespace", "id", "resolved row"])
     end
@@ -18,14 +18,14 @@ module Mork
       end
     end
 
-    describe "#content" do
+    describe "#values" do
       it "returns the supplied value" do
-        expect(subject.content).to eq(content)
+        expect(subject.values).to eq(values)
       end
     end
 
     describe "#rows" do
-      it "returns all rows in the supplied content" do
+      it "returns all rows in the supplied values" do
         expect(subject.rows).to eq([row])
       end
     end
