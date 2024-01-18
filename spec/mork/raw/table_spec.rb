@@ -8,7 +8,9 @@ module Mork
 
     let(:raw_id) { "{1:^80" }
     let(:content) { [row, "foo"] }
-    let(:row) { instance_double(Raw::Row, raw_id: "id", resolve: "resolved row") }
+    let(:row) do
+      instance_double(Raw::Row, raw_id: "id", resolve: ["namespace", "id", "resolved row"])
+    end
 
     describe "#raw_id" do
       it "returns the supplied value" do
@@ -41,7 +43,7 @@ module Mork
       end
 
       it "returns the rows" do
-        expect(result).to match([anything, anything, ["resolved row"]])
+        expect(result).to match([anything, anything, {"id" => "resolved row"}])
       end
     end
   end

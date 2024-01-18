@@ -43,7 +43,10 @@ module Mork
     end
 
     def resolved_rows(dictionaries)
-      rows.map { |r| r.resolve(dictionaries: dictionaries) }
+      rows.each.with_object({}) do |r, acc|
+        _namespace, id, row = r.resolve(dictionaries: dictionaries)
+        acc[id] = row
+      end
     end
   end
 end
