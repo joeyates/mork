@@ -49,11 +49,11 @@ module Mork
 
     def resolved_tables
       raw_tables.
-      map { |t| t.resolve(dictionaries: dictionaries) }.
-      each.with_object({}) do |(namespace, id, rows), acc|
-        acc[namespace] ||= {}
-        acc[namespace][id] = rows
-      end
+        map { |t| t.resolve(dictionaries: dictionaries) }.
+        each.with_object({}) do |(namespace, id, rows), acc|
+          acc[namespace] ||= {}
+          acc[namespace][id] = rows
+        end
     end
   end
 end
