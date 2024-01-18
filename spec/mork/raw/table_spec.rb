@@ -30,7 +30,7 @@ module Mork
 
     describe "#resolve" do
       let(:result) { subject.resolve(dictionaries: dictionaries) }
-      let(:dictionaries) { {"a" => {"80" => "X"}} }
+      let(:dictionaries) { {"c" => {"80" => "X"}} }
 
       it "returns the namespace" do
         expect(result).to match(["X", anything, anything])

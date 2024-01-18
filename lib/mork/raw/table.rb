@@ -44,8 +44,8 @@ module Mork
         nil
       when raw_namespace.start_with?("^")
         value = raw_namespace[1..]
-        dictionary = dictionaries["a"]
-        dictionary[value]
+        dictionary = dictionaries.fetch("c")
+        dictionary.fetch(value)
       else
         raw_namespace
       end
