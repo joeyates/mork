@@ -1,5 +1,7 @@
 # Mork
 
+[![Build Status](https://github.com/joeyates/imap-backup/actions/workflows/main.yml/badge.svg)][CI Status]
+
 Mozilla Thunderbird uses the [Mork database format](https://en.wikipedia.org/wiki/Mork_%28file_format%29) for its folder indexes.
 
 This library reads in a Mork file and produces a `Mork::Data` instance.
