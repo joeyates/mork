@@ -20,6 +20,9 @@ module Mork
     let(:dictionary_c) do
       instance_double(Raw::Dictionary, "c", scope: "c", to_h: {"Z" => "3"})
     end
+    let(:dictionary1) do
+      instance_double(Raw::Dictionary, "dictionary1", scope: "a", to_h: {"from_group" => "yep"})
+    end
 
     describe "#dictionaries" do
       it "builds namespaced dictionaries" do
@@ -28,6 +31,19 @@ module Mork
 
       it "merges source dictionaries by namespace" do
         expect(subject.dictionaries["a"].to_h).to eq({"X" => "1", "Y" => "2"})
+      end
+
+      context "when there are groups" do
+        let(:values) do
+          [dictionary_c, dictionary_first_a, dictionary_second_a, group1]
+        end
+        let(:group1) do
+          instance_double(Raw::Group, "dictionaries group1", dictionaries: [dictionary1])
+        end
+
+        it "merges group dictionaries" do
+          expect(subject.dictionaries["a"].to_h["from_group"]).to eq("yep")
+        end
       end
     end
 
@@ -53,7 +69,13 @@ module Mork
 
       context "when there are groups" do
         let(:values) { [row1, table1, group1] }
-        let(:group1) { instance_double(Raw::Group, resolve: group_data) }
+        let(:group1) do
+          instance_double(
+            Raw::Group, "data group1",
+            resolve: group_data,
+            dictionaries: [dictionary1]
+          )
+        end
         let(:group_data) do
           Data.new(
             rows: {"row_namespace" => {"group_row_id" => "resolved group row"}},

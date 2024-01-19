@@ -34,7 +34,7 @@ module Mork
       it "extracts groups" do
         groups = result.values.filter { |r| r.is_a?(Raw::Group) }
 
-        expect(groups.count).to eq(2)
+        expect(groups.count).to eq(11)
       end
 
       it "loads group rows" do

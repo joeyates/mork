@@ -53,7 +53,7 @@ RSpec/MultipleExpectations:
 RSpec/NamedSubject:
   Enabled: false
 RSpec/MultipleMemoizedHelpers:
-  Max: 10
+  Max: 15
 RSpec/ReturnFromStub:
   EnforcedStyle: block
 

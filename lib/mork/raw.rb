@@ -36,7 +36,15 @@ module Mork
     private
 
     def raw_dictionaries
-      @raw_dictionaries ||= values.filter { |v| v.is_a?(Raw::Dictionary) }
+      @raw_dictionaries ||= top_level_dictionaries + group_dictionaries
+    end
+
+    def top_level_dictionaries
+      @top_level_dictionaries ||= values.filter { |v| v.is_a?(Raw::Dictionary) }
+    end
+
+    def group_dictionaries
+      @group_dictionaries ||= raw_groups.flat_map(&:dictionaries)
     end
 
     def raw_groups
