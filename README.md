@@ -4,11 +4,18 @@ Mozilla Thunderbird uses the [Mork database format](https://en.wikipedia.org/wik
 
 This library reads in a Mork file and produces a `Mork::Data` instance.
 
+This provides:
+
+* `tables` - The top-level tables,
+* `rows` - The top-level rows (i.e. rows not contained in tables).
+
 ## Usage
 
 ```ruby
-parser = Mork::Parser.new("MyFolder.msf")
-data = parser.resolve
+parser = Mork::Parser.new
+content = File.read("MyFolder.msf")
+raw = parser.parse
+data = raw.data
 ```
 
 ## Development
