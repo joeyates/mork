@@ -21,12 +21,14 @@ module Mork
       subject.scan_setup(content)
     end
 
-    it "returns the Mork magic header" do
-      expect(subject.next_token).to match([:magic, /mdb:mork/])
-    end
+    describe "#next_token" do
+      it "returns the Mork magic header" do
+        expect(subject.next_token).to match([:magic, /mdb:mork/])
+      end
 
-    it "splits the file into tokens" do
-      expect(all.count).to be > 900
+      it "splits the file into tokens" do
+        expect(all.count).to be > 900
+      end
     end
   end
 end
