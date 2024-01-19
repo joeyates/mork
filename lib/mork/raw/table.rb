@@ -21,7 +21,8 @@ module Mork
     end
 
     def resolve(dictionaries:)
-      [resolved_namespace(dictionaries), resolved_id(dictionaries), resolved_rows(dictionaries)]
+      _action, namespace, id = resolve_id(dictionaries)
+      [namespace, id, resolved_rows(dictionaries)]
     end
 
     private
@@ -30,16 +31,12 @@ module Mork
       @raw_id_resolver ||= Raw::Id.new(raw: raw_id)
     end
 
-    def raw_id_resolved(dictionaries)
-      @raw_id_resolved ||= raw_id_resolver.resolve(dictionaries: dictionaries)
-    end
-
-    def resolved_id(dictionaries)
-      raw_id_resolved(dictionaries)[1]
-    end
-
-    def resolved_namespace(dictionaries)
-      raw_id_resolved(dictionaries).first
+    def resolve_id(dictionaries)
+      resolved_id = raw_id_resolver.resolve(dictionaries: dictionaries)
+      action = resolved_id.action
+      id = resolved_id.id
+      namespace = resolved_id.namespace
+      [action, namespace, id]
     end
 
     def resolved_rows(dictionaries)
