@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "mork/data"
+require "mork/raw/dictionary"
 require "mork/raw/row_resolver"
 require "mork/raw/table_resolver"
 
@@ -15,12 +16,18 @@ module Mork
       @values = values
     end
 
+    def dictionaries
+      @dictionaries ||= values.filter { |r| r.is_a?(Raw::Dictionary) }
+    end
+
     def resolve(dictionaries:)
       Data.new(
         rows: row_resolver.resolve(dictionaries: dictionaries),
         tables: table_resolver.resolve(dictionaries: dictionaries)
       )
     end
+
+    private
 
     def row_resolver
       @row_resolver ||= Raw::RowResolver.new(values: values)

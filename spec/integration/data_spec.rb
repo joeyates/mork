@@ -27,7 +27,7 @@ RSpec.describe "mork parsing" do
           "threadRoot" => "4"
         }
       },
-      "ns:msg:db:row:scope:dbfolderinfo:all" => {"1" => {"expungedBytes" => "0"}}
+      "ns:msg:db:row:scope:dbfolderinfo:all" => {"1" => {"highestModSeq" => "5326264"}}
     }
   end
   let(:expected_tables) do

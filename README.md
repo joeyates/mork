@@ -17,9 +17,11 @@ This provides:
 ## Usage
 
 ```ruby
+require "mork/parser"
+
 parser = Mork::Parser.new
 content = File.read("MyFolder.msf")
-raw = parser.parse
+raw = parser.parse(content)
 data = raw.data
 ```
 
