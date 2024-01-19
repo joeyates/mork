@@ -1,6 +1,7 @@
 # Mork
 
 [![Build Status](https://github.com/joeyates/imap-backup/actions/workflows/main.yml/badge.svg)][CI Status]
+![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/joeyates/0ad88e9ac5abded0a579daf09b3dbc8f/raw/coverage.json)
 
 Mozilla Thunderbird uses the [Mork database format](https://en.wikipedia.org/wiki/Mork_%28file_format%29) for its folder indexes.
 
