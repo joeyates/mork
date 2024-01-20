@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "mork/raw/id"
+require "mork/resolved/row"
 
 module Mork
   class Raw; end # rubocop:disable Lint/EmptyClass
@@ -16,8 +17,10 @@ module Mork
     end
 
     def resolve(dictionaries:)
-      _action, namespace, id = resolve_id(dictionaries)
-      [namespace, id, resolved_cells(dictionaries)]
+      action, namespace, id = resolve_id(dictionaries)
+      Resolved::Row.new(
+        action: action, namespace: namespace, id: id, cells: resolved_cells(dictionaries)
+      )
     end
 
     private
@@ -35,10 +38,7 @@ module Mork
     end
 
     def resolved_cells(dictionaries)
-      cells.each.with_object({}) do |c, acc|
-        key, value = c.resolve(dictionaries: dictionaries)
-        acc[key] = value
-      end
+      cells.map { |c| c.resolve(dictionaries: dictionaries) }
     end
   end
 end

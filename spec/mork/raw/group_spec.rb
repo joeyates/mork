@@ -9,7 +9,7 @@ module Mork
     subject { described_class.new(values: values) }
 
     let(:values) { [row1, table1, dictionary1, "foo"] }
-    let(:row1) { instance_double(Raw::Row, resolve: ["row_namespace", "row_id", "resolved row"]) }
+    let(:row1) { instance_double(Raw::Row, resolve: "resolved row") }
     let(:table1) do
       instance_double(Raw::Table, resolve: ["ns", "table_id", {"row_id" => "resolved row"}])
     end
@@ -38,7 +38,7 @@ module Mork
       end
 
       it "resolves rows" do
-        expect(data.rows).to eq({"row_namespace" => {"row_id" => "resolved row"}})
+        expect(data.rows).to eq(["resolved row"])
       end
 
       it "resolves tables" do

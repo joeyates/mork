@@ -3,7 +3,6 @@
 require "mork/data"
 require "mork/raw/dictionary"
 require "mork/raw/group"
-require "mork/raw/row_resolver"
 require "mork/raw/table_resolver"
 
 module Mork
@@ -57,23 +56,40 @@ module Mork
         map { |g| g.resolve(dictionaries: dictionaries) }
     end
 
+    ####################
+    # rows
+
+    def raw_rows
+      @raw_rows ||= values.filter { |v| v.is_a?(Raw::Row) }
+    end
+
     def resolved_rows(dictionaries)
-      all_rows = row_resolver.resolve(dictionaries: dictionaries)
-      resolved_groups(dictionaries).
+      all =
+        raw_rows.map { |r| r.resolve(dictionaries: dictionaries) } +
+        resolved_groups(dictionaries).map(&:rows)
+      all.
+        group_by(&:namespace).
         each.
-        with_object(all_rows) do |group, acc_rows|
-          merge_group_rows(acc_rows, group.rows)
+        with_object({}) do |(namespace, rows), acc_rows|
+          acc_rows[namespace] = merge_namespace_rows(acc_rows[namespace] || {}, rows)
         end
     end
 
-    def merge_group_rows(all_rows, group_rows)
-      group_rows.
-        each.
-        with_object(all_rows) do |(namespace, namespace_rows), acc_rows|
-          acc_rows[namespace] ||= {}
-          acc_rows[namespace].merge!(namespace_rows)
+    def merge_namespace_rows(all_rows, group_rows)
+      group_rows.each.with_object(all_rows) do |rows, acc_rows|
+        rows.each do |row|
+          case row.action
+          when :add
+            acc_rows[row.id] = row.to_h
+          when :delete
+            acc_rows.delete(row.id)
+          end
         end
+      end
     end
+
+    ####################
+    # tables
 
     def resolved_tables(dictionaries)
       all_tables = table_resolver.resolve(dictionaries: dictionaries)
@@ -100,10 +116,6 @@ module Mork
           rows = acc[namespace] || {}
           rows.merge!(update_rows)
         end
-    end
-
-    def row_resolver
-      @row_resolver ||= Raw::RowResolver.new(values: values)
     end
 
     def table_resolver
