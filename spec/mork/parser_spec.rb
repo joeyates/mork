@@ -59,7 +59,7 @@ module Mork
       it "extracts tables" do
         tables = result.values.filter { |r| r.is_a?(Raw::Table) }
 
-        expect(tables.count).to eq(4)
+        expect(tables.count).to eq(5)
       end
 
       it "loads table ids" do

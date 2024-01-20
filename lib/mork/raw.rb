@@ -114,8 +114,9 @@ module Mork
     def merge_tables(tables)
       tables.
         each.with_object({}) do |(namespace, namespace_tables), acc|
-        acc[namespace] = merge_namespace_tables(namespace_tables)
-      end
+          merged = merge_namespace_tables(namespace_tables)
+          acc[namespace] = merged if merged.any?
+        end
     end
 
     def unmerged_tables(dictionaries)
@@ -133,6 +134,8 @@ module Mork
         when :add
           acc[table.id] ||= []
           acc[table.id] += table.rows
+        when :delete
+          acc.delete(table.id)
         end
       end
     end
