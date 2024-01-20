@@ -2,6 +2,7 @@
 
 require "mork/raw/id"
 require "mork/raw/row"
+require "mork/resolved/table"
 
 module Mork
   class Raw; end # rubocop:disable Lint/EmptyClass
@@ -21,7 +22,11 @@ module Mork
     end
 
     def resolve(dictionaries:)
-      [resolved_namespace(dictionaries), resolved_id(dictionaries), resolved_rows(dictionaries)]
+      resolved_id = resolve_id(dictionaries)
+      Resolved::Table.new(
+        action: resolved_id.action, namespace: resolved_id.namespace, id: resolved_id.id,
+        rows: resolved_rows(dictionaries)
+      )
     end
 
     private
@@ -30,23 +35,12 @@ module Mork
       @raw_id_resolver ||= Raw::Id.new(raw: raw_id)
     end
 
-    def raw_id_resolved(dictionaries)
-      @raw_id_resolved ||= raw_id_resolver.resolve(dictionaries: dictionaries)
-    end
-
-    def resolved_id(dictionaries)
-      raw_id_resolved(dictionaries)[1]
-    end
-
-    def resolved_namespace(dictionaries)
-      raw_id_resolved(dictionaries).first
+    def resolve_id(dictionaries)
+      raw_id_resolver.resolve(dictionaries: dictionaries)
     end
 
     def resolved_rows(dictionaries)
-      rows.each.with_object({}) do |r, acc|
-        _namespace, id, row = r.resolve(dictionaries: dictionaries)
-        acc[id] = row
-      end
+      rows.map { |r| r.resolve(dictionaries: dictionaries) }
     end
   end
 end

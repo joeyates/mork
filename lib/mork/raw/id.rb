@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "mork/resolved/id"
+
 module Mork
   class Raw; end # rubocop:disable Lint/EmptyClass
 
@@ -7,30 +9,35 @@ module Mork
   class Raw::Id
     attr_reader :raw
 
+    ACTIONS = {
+      "-" => :delete,
+      nil => :add
+    }.freeze
+
     def initialize(raw:)
       @raw = raw
     end
 
     def resolve(dictionaries:)
-      [resolved_namespace(dictionaries), id]
+      namespace = resolve_namespace(dictionaries)
+      Resolved::Id.new(action: action, namespace: namespace, id: id)
     end
 
     private
 
+    def action
+      ACTIONS[parts[:action]]
+    end
+
     def id
-      id, _namespace = split_raw_id
-      id
+      parts[:id]
     end
 
     def raw_namespace
-      @raw_namespace ||=
-        begin
-          _id, raw_namespace = split_raw_id
-          raw_namespace
-        end
+      parts[:raw_namespace]
     end
 
-    def resolved_namespace(dictionaries)
+    def resolve_namespace(dictionaries)
       case
       when raw_namespace.nil?
         nil
@@ -48,6 +55,7 @@ module Mork
     RAW_ID_MATCH = /
     \A
     \{?                # The lexer captures the table delimiter
+    (?<action>-)?      # The optional action can indicate deletion
     (?<id>[0-9]+)      # Tables are numbered
     (
       :
@@ -59,9 +67,8 @@ module Mork
     /x.freeze
     # rubocop:enable Lint/MixedRegexpCaptureTypes
 
-    def split_raw_id
-      m = RAW_ID_MATCH.match(raw)
-      [m[:id], m[:raw_namespace]]
+    def parts
+      @parts ||= RAW_ID_MATCH.match(raw)
     end
   end
 end

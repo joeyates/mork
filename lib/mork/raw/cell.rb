@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "mork/resolved/cell"
+
 module Mork
   class Raw; end # rubocop:disable Lint/EmptyClass
 
@@ -12,7 +14,8 @@ module Mork
     end
 
     def resolve(dictionaries:)
-      parse(dictionaries)
+      key, value = parse(dictionaries)
+      Resolved::Cell.new(key: key, value: value)
     end
 
     private

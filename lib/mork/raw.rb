@@ -3,8 +3,6 @@
 require "mork/data"
 require "mork/raw/dictionary"
 require "mork/raw/group"
-require "mork/raw/row_resolver"
-require "mork/raw/table_resolver"
 
 module Mork
   # Raw data returned by the Parser
@@ -52,62 +50,99 @@ module Mork
     end
 
     def resolved_groups(dictionaries)
-      @resolved_groups ||=
-        raw_groups.
+      raw_groups.
         map { |g| g.resolve(dictionaries: dictionaries) }
     end
 
+    ####################
+    # rows
+
+    def raw_rows
+      @raw_rows ||= values.filter { |v| v.is_a?(Raw::Row) }
+    end
+
+    def raw_tables
+      @raw_tables ||= values.filter { |v| v.is_a?(Raw::Table) }
+    end
+
+    def unmerged_rows(dictionaries)
+      top_level_rows = raw_rows.map { |r| r.resolve(dictionaries: dictionaries) }
+      group_rows =
+        resolved_groups(dictionaries).
+        map { |g| g[:rows] }.
+        flatten
+      (top_level_rows + group_rows).group_by(&:namespace)
+    end
+
     def resolved_rows(dictionaries)
-      all_rows = row_resolver.resolve(dictionaries: dictionaries)
-      resolved_groups(dictionaries).
-        each.
-        with_object(all_rows) do |group, acc_rows|
-          merge_group_rows(acc_rows, group.rows)
+      unmerged_rows(dictionaries).
+        each.with_object({}) do |(namespace, rows), acc|
+          merged = reduce_rows(rows)
+          acc[namespace] = merged if merged.any?
         end
     end
 
-    def merge_group_rows(all_rows, group_rows)
-      group_rows.
-        each.
-        with_object(all_rows) do |(namespace, namespace_rows), acc_rows|
-          acc_rows[namespace] ||= {}
-          acc_rows[namespace].merge!(namespace_rows)
+    def reduce_rows(rows)
+      rows.each.with_object({}) do |row, acc|
+        case row.action
+        when :add
+          acc[row.id] = row.to_h
+        when :delete
+          acc.delete(row.id)
         end
+      end
     end
+
+    ####################
+    # tables
 
     def resolved_tables(dictionaries)
-      all_tables = table_resolver.resolve(dictionaries: dictionaries)
-      resolved_groups(dictionaries).
-        each.
-        with_object(all_tables) do |group, acc_tables|
-          merge_group_tables(acc_tables, group.tables)
+      unmerged = unmerged_tables(dictionaries)
+      merged = merge_tables(unmerged)
+      reduce_tables(merged)
+    end
+
+    def reduce_tables(tables)
+      tables.
+        each.with_object({}) do |(namespace, namespace_tables), acc1|
+          acc1[namespace] =
+            namespace_tables.each.with_object({}) do |(id, rows), acc2|
+              acc2[id] = reduce_rows(rows)
+            end
         end
     end
 
-    def merge_group_tables(all_tables, group_tables)
-      group_tables.
-        each.
-        with_object(all_tables) do |(namespace, namespace_tables), acc_tables|
-          acc_namespace_tables = acc_tables[namespace] ||= {}
-          merge_tables(acc_namespace_tables, namespace_tables)
+    def merge_tables(tables)
+      tables.
+        each.with_object({}) do |(namespace, namespace_tables), acc|
+          merged = merge_namespace_tables(namespace_tables)
+          acc[namespace] = merged if merged.any?
         end
     end
 
-    def merge_tables(into, from)
-      from.
-        each.
-        with_object(into) do |(namespace, update_rows), acc|
-          rows = acc[namespace] || {}
-          rows.merge!(update_rows)
+    def unmerged_tables(dictionaries)
+      top_level_tables = unmerged_resolved_tables(dictionaries)
+      group_tables =
+        resolved_groups(dictionaries).
+        map { |g| g[:tables] }.
+        flatten
+      (top_level_tables + group_tables).group_by(&:namespace)
+    end
+
+    def merge_namespace_tables(tables)
+      tables.each.with_object({}) do |table, acc|
+        case table.action
+        when :add
+          acc[table.id] ||= []
+          acc[table.id] += table.rows
+        when :delete
+          acc.delete(table.id)
         end
+      end
     end
 
-    def row_resolver
-      @row_resolver ||= Raw::RowResolver.new(values: values)
-    end
-
-    def table_resolver
-      @table_resolver ||= Raw::TableResolver.new(values: values)
+    def unmerged_resolved_tables(dictionaries)
+      raw_tables.map { |t| t.resolve(dictionaries: dictionaries) }
     end
   end
 end

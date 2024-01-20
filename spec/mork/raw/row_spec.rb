@@ -23,18 +23,34 @@ module Mork
     end
 
     describe "#resolve" do
-      let(:cells) { [Raw::Cell.new(raw: "^AA=there")] }
+      let(:cells) { [instance_double(Raw::Cell, resolve: "resolved cell")] }
       let(:result) { subject.resolve(dictionaries: {"c" => {"AA" => "hi", "AB" => "X"}}) }
 
-      it "returns a namespace, id and Hash of columns and values" do
-        expect(result).to eq(["ciao", "99", {"hi" => "there"}])
+      it "returns a Resolved::Row" do
+        expect(result).to be_a(Resolved::Row)
+      end
+
+      it "returns the action" do
+        expect(result.action).to eq(:add)
+      end
+
+      it "returns the namespace" do
+        expect(result.namespace).to eq("ciao")
+      end
+
+      it "returns the id" do
+        expect(result.id).to eq("99")
+      end
+
+      it "returns the resolved cells" do
+        expect(result.cells).to eq(["resolved cell"])
       end
 
       context "when the row namespace is a reference" do
         let(:raw_id) { "99:^AB" }
 
-        it "returns a namespace, id and Hash of columns and values" do
-          expect(result).to eq(["X", "99", {"hi" => "there"}])
+        it "returns the resolved namespace" do
+          expect(result.namespace).to eq("X")
         end
       end
     end
