@@ -2,7 +2,6 @@
 
 require "mork/data"
 require "mork/raw/dictionary"
-require "mork/raw/table_resolver"
 
 module Mork
   class Raw; end # rubocop:disable Lint/EmptyClass
@@ -20,10 +19,10 @@ module Mork
     end
 
     def resolve(dictionaries:)
-      Data.new(
+      {
         rows: resolved_rows(dictionaries),
-        tables: table_resolver.resolve(dictionaries: dictionaries)
-      )
+        tables: resolved_tables(dictionaries)
+      }
     end
 
     private
@@ -32,12 +31,16 @@ module Mork
       @raw_rows ||= values.filter { |v| v.is_a?(Raw::Row) }
     end
 
+    def raw_tables
+      @raw_tables ||= values.filter { |v| v.is_a?(Raw::Table) }
+    end
+
     def resolved_rows(dictionaries)
       raw_rows.map { |r| r.resolve(dictionaries: dictionaries) }
     end
 
-    def table_resolver
-      @table_resolver ||= Raw::TableResolver.new(values: values)
+    def resolved_tables(dictionaries)
+      raw_tables.map { |t| t.resolve(dictionaries: dictionaries) }
     end
   end
 end

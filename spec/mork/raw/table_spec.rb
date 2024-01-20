@@ -9,7 +9,7 @@ module Mork
     let(:raw_id) { "{1:^80" }
     let(:values) { [row, "foo"] }
     let(:row) do
-      instance_double(Raw::Row, raw_id: "id", resolve: ["namespace", "id", "resolved row"])
+      instance_double(Raw::Row, raw_id: "id", resolve: "resolved row")
     end
 
     describe "#raw_id" do
@@ -34,16 +34,20 @@ module Mork
       let(:result) { subject.resolve(dictionaries: dictionaries) }
       let(:dictionaries) { {"c" => {"80" => "X"}} }
 
+      it "returns a Resolved::Table" do
+        expect(result).to be_a(Resolved::Table)
+      end
+
       it "returns the namespace" do
-        expect(result).to match(["X", anything, anything])
+        expect(result.namespace).to eq("X")
       end
 
       it "returns the id" do
-        expect(result).to match([anything, "1", anything])
+        expect(result.id).to eq("1")
       end
 
       it "returns the rows" do
-        expect(result).to match([anything, anything, {"id" => "resolved row"}])
+        expect(result.rows).to eq(["resolved row"])
       end
     end
   end

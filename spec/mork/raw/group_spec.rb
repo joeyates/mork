@@ -11,7 +11,7 @@ module Mork
     let(:values) { [row1, table1, dictionary1, "foo"] }
     let(:row1) { instance_double(Raw::Row, resolve: "resolved row") }
     let(:table1) do
-      instance_double(Raw::Table, resolve: ["ns", "table_id", {"row_id" => "resolved row"}])
+      instance_double(Raw::Table, resolve: "resolved table")
     end
     let(:dictionary1) { instance_double(Raw::Dictionary, scope: "c") }
 
@@ -33,16 +33,16 @@ module Mork
       let(:dictionaries) { {} }
       let(:data) { subject.resolve(dictionaries: dictionaries) }
 
-      it "returns a Data instance" do
-        expect(data).to be_a(Data)
+      it "returns a Hash" do
+        expect(data).to be_a(Hash)
       end
 
       it "resolves rows" do
-        expect(data.rows).to eq(["resolved row"])
+        expect(data[:rows]).to eq(["resolved row"])
       end
 
       it "resolves tables" do
-        expect(data.tables).to eq({"ns" => {"table_id" => {"row_id" => "resolved row"}}})
+        expect(data[:tables]).to eq(["resolved table"])
       end
     end
   end

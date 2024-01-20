@@ -36,6 +36,7 @@ rule
   table_content: { result = [] }
                | meta_table table_content { result = [val[0]] + val[1] }
                | row table_content { result = [val[0]] + val[1] }
+               | row_delete table_content { result = [Mork::Raw::Row.new(raw_id: val[0], cells: [])] + val[1] }
                | table_row_ref table_content { result = [val[0]] + val[1] }
   meta_table: meta_table_in meta_table_content meta_table_out { result = Mork::Raw::MetaTable.new(raw: val[1]) }
   meta_table_content: 
