@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "mork/id"
+require "mork/resolved/id"
 
 module Mork
   class Raw; end # rubocop:disable Lint/EmptyClass
@@ -20,7 +20,7 @@ module Mork
 
     def resolve(dictionaries:)
       namespace = resolve_namespace(dictionaries)
-      Mork::Id.new(action: action, namespace: namespace, id: id)
+      Resolved::Id.new(action: action, namespace: namespace, id: id)
     end
 
     private

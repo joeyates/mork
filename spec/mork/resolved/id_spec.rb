@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "mork/id"
+require "mork/resolved/id"
 
 module Mork
-  RSpec.describe Id do
+  RSpec.describe Resolved::Id do
     subject { described_class.new(action: action, namespace: namespace, id: id) }
 
     let(:action) { :add }

@@ -11,8 +11,8 @@ module Mork
     describe "#resolve" do
       let(:result) { subject.resolve(dictionaries: {"c" => {"AA" => "hi"}}) }
 
-      it "returns an Mork::Id" do
-        expect(result).to be_a(Mork::Id)
+      it "returns an Mork::Resolved::Id" do
+        expect(result).to be_a(Mork::Resolved::Id)
       end
 
       it "sets the default action to :add" do
