@@ -77,7 +77,8 @@ module Mork
     def resolved_rows(dictionaries)
       unmerged_rows(dictionaries).
         each.with_object({}) do |(namespace, rows), acc|
-          acc[namespace] = reduce_rows(rows)
+          merged = reduce_rows(rows)
+          acc[namespace] = merged if merged.any?
         end
     end
 
