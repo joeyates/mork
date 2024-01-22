@@ -3,7 +3,7 @@
 require_relative "lib/mork"
 
 Gem::Specification.new do |spec|
-  spec.name = "mork"
+  spec.name = "mork-parser"
   spec.version = Mork::VERSION
   spec.authors = ["Joe Yates"]
   spec.email = ["joe.g.yates@gmail.com"]
