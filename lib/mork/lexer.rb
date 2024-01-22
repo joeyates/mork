@@ -254,7 +254,7 @@ class Mork::Lexer < Racc::Parser
                   when (text = @ss.scan(/\[/))
                      action { @stack.push(@state); @state = :ROW; [:row_in, text] }
 
-                  when (text = @ss.scan(/\-[A-Z-0-9]+\s*/))
+                  when (text = @ss.scan(/\-[A-Z0-9]+\s*/))
                      action {                      [:row_delete, text] }
 
                   when (text = @ss.scan(/[A-Z0-9]+(:[^\s]+\s)?/))

@@ -64,7 +64,7 @@ rule
   :TABLE         \}            { @state = @stack.pop;    [:table_out, text] }
   :TABLE         {TABLE}       { @state = :META_TABLE;   [:meta_table_in, text] }
   :TABLE         {ROW}         { @stack.push(@state); @state = :ROW; [:row_in, text] }
-  :TABLE         \-[A-Z-0-9]+\s*  {                      [:row_delete, text] }
+  :TABLE         \-[A-Z0-9]+\s*  {                       [:row_delete, text] }
   :TABLE         [A-Z0-9]+(:[^\s]+\s)? {                  [:table_row_ref, text] }
 
   :META_TABLE    \}            { @state = :TABLE;         [:meta_table_out, text] }
