@@ -4,9 +4,18 @@ require "mork/parser"
 
 module Mork
   RSpec.describe Parser do
+    let(:mork_pathname) { "spec/fixtures/Foo.msf" }
+    let(:content) { File.read(mork_pathname) }
+
+    describe "#data" do
+      let(:result) { subject.data(content) }
+
+      it "returns the resolved data" do
+        expect(result).to be_a(Data)
+      end
+    end
+
     describe "#parse" do
-      let(:mork_pathname) { "spec/fixtures/Foo.msf" }
-      let(:content) { File.read(mork_pathname) }
       let(:result) { subject.parse(content) }
 
       it "returns raw parsed data" do

@@ -80,6 +80,11 @@ def next_token
   lexer.next_token
 end
 
+def data(str)
+  raw = parse(str)
+  raw.data
+end
+
 ---- footer
 
 #
