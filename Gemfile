@@ -6,7 +6,6 @@ gemspec
 
 group :development do
   gem "pry-byebug", "~> 3.10", require: false
-  gem "racc", "~> 1.7"
   gem "rake", "~> 13.0"
   gem "rexical", "~> 1.0"
   gem "rspec", "~> 3.0"
