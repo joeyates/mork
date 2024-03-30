@@ -56,7 +56,7 @@ module Mork
     \A
     \{?                # The lexer captures the table delimiter
     (?<action>-)?      # The optional action can indicate deletion
-    (?<id>[0-9]+)      # Tables are numbered
+    (?<id>[A-F0-9]+)   # Tables are numbered
     (
       :
       (?<raw_namespace>
