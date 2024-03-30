@@ -26,15 +26,15 @@ module Mork
     private
 
     def action
-      ACTIONS[parts[:action]]
+      ACTIONS[parts["action"]]
     end
 
     def id
-      parts[:id]
+      parts["id"]
     end
 
     def raw_namespace
-      parts[:raw_namespace]
+      parts["raw_namespace"]
     end
 
     def resolve_namespace(dictionaries)
