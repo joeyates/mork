@@ -35,6 +35,25 @@ and then run `rake release`, which will create a git tag for the version,
 push git commits and the created tag,
 and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
+## Lexer/Parser Modifications
+
+The lexer, `parser/mork.rex`, is written in [Rexical grammar](https://github.com/tenderlove/rexical).
+
+After changes, regenerate the Ruby lexer code:
+
+```sh
+$ rex parser/mork.rex --output-file lib/mork/lexer.rb
+```
+
+The parser, which uses the symbols lexed by `lib/mork/lexer.rb`,
+is `parser/mork.y`.
+
+To regenerate the parser:
+
+```sh
+$ racc parser/mork.y --output-file lib/mork/parser.rb
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/joeyates/mork.

@@ -1,8 +1,5 @@
 # mork
 # LALR parser generator for Mork files
-#
-# Generate Ruby parser
-# $ racc parser/mork.y --output-file lib/mork/parser.rb
 class Mork::Parser
 
 rule

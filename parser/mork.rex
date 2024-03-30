@@ -1,8 +1,5 @@
 # mork
 # lexical definition for Mork files
-#
-# Generate Ruby lexer:
-# $ rex parser/mork.rex --output-file lib/mork/lexer.rb
 
 class Mork::Lexer
 macro
