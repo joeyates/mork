@@ -64,7 +64,7 @@ module Mork
         \S+            # The name is everything but trailing whitespace
       )
     )?                 # The namespace is optional
-    /x.freeze
+    /x
     # rubocop:enable Lint/MixedRegexpCaptureTypes
     private_constant :RAW_ID_MATCH
 

@@ -26,7 +26,7 @@ module Mork
     (?<key>[89A-F][0-9A-F])  # Reference names are hex >= 80
     (?<value_type>[\^\=])    # Cell values can be references or direct values
     (?<value>.*)
-    /x.freeze
+    /x
     private_constant :PAIR_MATCH
 
     def parse(dictionaries)
