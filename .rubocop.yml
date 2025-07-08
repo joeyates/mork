@@ -1,6 +1,6 @@
 inherit_from: .rubocop_todo.yml
 
-require:
+plugins:
 - rubocop-rake
 - rubocop-rspec
 
@@ -12,12 +12,6 @@ AllCops:
     - lib/mork/parser.rb
     - "vendor/**/*"
   NewCops: enable
-
-Capybara:
-  Enabled: false
-
-FactoryBot:
-  Enabled: false
 
 Layout/DotPosition:
   EnforcedStyle: trailing

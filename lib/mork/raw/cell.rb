@@ -27,6 +27,7 @@ module Mork
     (?<value_type>[\^\=])    # Cell values can be references or direct values
     (?<value>.*)
     /x.freeze
+    private_constant :PAIR_MATCH
 
     def parse(dictionaries)
       raw_key, value_type, raw_value = raw_parts

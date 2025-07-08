@@ -25,5 +25,5 @@ Gem::Specification.new do |spec|
   spec.executables = []
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "racc", "~> 1.7"
+  spec.add_dependency "racc", "~> 1.7"
 end

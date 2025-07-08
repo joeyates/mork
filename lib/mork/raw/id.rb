@@ -66,6 +66,7 @@ module Mork
     )?                 # The namespace is optional
     /x.freeze
     # rubocop:enable Lint/MixedRegexpCaptureTypes
+    private_constant :RAW_ID_MATCH
 
     def parts
       @parts ||= RAW_ID_MATCH.match(raw)
